@@ -44,13 +44,13 @@ class CategoryController extends Controller
         $slug = Str::slug($request->name);
         $checkSlug = Category::where('slug',$slug)->first();
         while($checkSlug){
-            $slug = $checkSlug->slug . Str::random(2);
+            $slug = $checkSlug->slug . "-" . Str::random(2);
         }
        Category::where('id',$id)->update([
         'name'=> $request->name,
         'slug'=> $slug
         ]);
-        return redirect()->route('admin.category.edit',$id)->with('success','Update successfully');
+        return redirect()->route('admin.category.index',$id)->with('success','Update successfully');
     } 
     public function delete($id){
         Category::where('id',$id)->delete();

@@ -15,8 +15,9 @@
             @if(session('success'))
                 <div class="alert alert-success">
                     {{session('success')}}
-                </div>
             @endif
+        </div>
+
             <!-- /.col-lg-12 -->
             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>

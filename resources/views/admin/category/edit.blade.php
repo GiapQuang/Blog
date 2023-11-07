@@ -15,12 +15,12 @@
                 {{$err}} <br>
             @endforeach
             </div>
-        @endif
-        @if(session('success'))
+            @endif
+            @if(session('success'))
             <div class="alert alert-success">
                 {{session('success')}}
             </div>
-        @endif
+            @endif
         </div>
             <!-- /.col-lg-12 -->
             <div class="col-lg-7" style="padding-bottom:120px">

@@ -1,48 +1,54 @@
 @extends('admin.layout.master')
+
 @section('content')
-<!-- Page Content -->
-<div id="page-wrapper">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Category
-                    <small>List</small>
-                </h1>
-            </div>
-            <!-- /.col-lg-12 -->
-            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                <thead>
+
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Post
+                        <small>List</small>
+                    </h1>
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                </div>
+                <!-- /.col-lg-12 -->
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
                     <tr align="center">
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Category Parent</th>
-                        <th>Status</th>
-                        <th>Delete</th>
+                        <th>Title</th>
+                        <th>Image</th>
+                        <th>Category</th>
+                        <th>Highlight post</th>
                         <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr class="odd gradeX" align="center">
-                        <td>1</td>
-                        <td>Tin Tức</td>
-                        <td>None</td>
-                        <td>Hiện</td>
-                        <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="#"> Delete</a></td>
-                        <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="#">Edit</a></td>
-                    </tr>
-                    <tr class="even gradeC" align="center">
-                        <td>2</td>
-                        <td>Bóng Đá</td>
-                        <td>Thể Thao</td>
-                        <td>Ẩn</td>
-                        <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="#"> Delete</a></td>
-                        <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="#">Edit</a></td>
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach($posts as $post)
+                        <tr class="odd gradeX" align="center">
+                            <td>{{ $post->id }}</td>
+                            <td>{{ $post->title }}</td>
+                            <td><img src="{{$post->imageUrl() }}" alt="" width="50px" height="auto"></td>
+                            <td>{{ $post->category->name }}</td>
+                            <td>{{ $post->highlight_post == 1 ? "x" : "" }}</td>
+                            <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="{{ route('admin.post.edit', $post->id) }}">Edit</a></td>
+                            <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="{{ route('admin.post.delete', $post->id) }}"> Delete</a></td>
+
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+                {!! $posts->links() !!}
+            </div>
+            <!-- /.row -->
         </div>
-        <!-- /.row -->
+        <!-- /.container-fluid -->
     </div>
-    <!-- /.container-fluid -->
-</div>
+
 @endsection

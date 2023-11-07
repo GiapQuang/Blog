@@ -12,8 +12,8 @@
             @if(count($errors))
                 <div class="alert alert-danger">
                     @foreach($errors->all() as $err)
-                    {{$err}} <br>
-                @endforeach
+                        {{$err}}
+                    @endforeach
                 </div>
             @endif
             <!-- /.col-lg-12 -->

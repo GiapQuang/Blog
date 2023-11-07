@@ -13,7 +13,7 @@ class Post extends Model
         'description',
         'content',
         'image',
-        'views',
+        'view_counts',
         'user_id',
         'new_post',
         'slug',
@@ -28,5 +28,8 @@ class Post extends Model
     }
     public function comments(){
         return $this->hasMany(Comment::class);
+    }
+    public function imageUrl(){
+        return '/image/post/' . $this->image;  //khai bao cho hinh anh cai ham de no tra ve duong dan anh
     }
 }

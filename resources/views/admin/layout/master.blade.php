@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <title>@yield('title') </title>
     @include('admin.layout.style')
-    @stack('styles') // dung stack de push code truc tiep vao, khi chay mo f12 thi code se nam o ngoai source cho de nhin
+    @stack('styles')
 </head>
 
 <body>

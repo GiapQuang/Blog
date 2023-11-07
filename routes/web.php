@@ -1,29 +1,34 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Web\AuthController as WebAuthController;
+use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+//route fe
+Route::get('/', [WebController::class, 'home']);
+Route::get('category', [WebController::class, 'category']);
+Route::get('category/{slug}', [WebController::class, 'categorySlug'])->name('web.category');
+Route::get('post/{slug}', [WebController::class, 'post'])->name('web.post');
+Route::post('post/comment/{id}', [WebController::class, 'comment'])->name('web.post.comment');
+Route::get('contact', [WebController::class, 'contact'])->name('web.contact');
+Route::post('contact', [WebController::class, 'sendContact'])->name('web.contact.store');
 
-Route::get('/', function () {
-    return view('welcome');
+//route login 
+Route::get('login', [WebAuthController::class,'formLogin']);
+Route::post('login', [WebAuthController::class,'login'])->name('web.auth.login');
+Route::get('logout', [WebAuthController::class,'logout'])->name('web.logout');
+
+//route admin
+Route::prefix('admin')->group(function() {
+    Route::get('login', [AuthController::class, 'login'])->name('admin.auth.login');
+    Route::post('checklogin', [AuthController::class, 'checklogin'])->name('admin.auth.check-login');
 });
-
-
-//admin
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('admin.login')->group(function () {
     Route::prefix('category')->group(function () { 
         Route::get('', [CategoryController::class,'index'])->name('admin.category.index');
         Route::get('create', [CategoryController::class,'create'])->name('admin.category.create');
@@ -52,5 +57,8 @@ Route::prefix('admin')->group(function () {
         Route::put('update/{id}', [UserController::class,'update'])->name('admin.user.update');
         Route::get('delete/{id}', [UserController::class,'delete'])->name('admin.user.delete');
     });
+    Route::get('logout', [AuthController::class,'logout'])->name('admin.logout');
+    Route::get('profile', [AuthController::class,'profile'])->name('admin.profile.index');
+    Route::put('profile',[AuthController::class,'updateprofile'])->name('admin.profile.update');
 });
 
